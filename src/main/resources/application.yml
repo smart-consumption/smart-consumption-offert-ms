@@ -1,0 +1,25 @@
+server:
+  port: 9001
+  servlet:
+    context-path: /smart-consumption/api/v1
+
+spring:
+  application:
+    name: smart_consumption
+
+  datasource:
+    url: jdbc:postgresql://localhost:10001/postgres
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  data:
+    mongodb:
+      uri: mongodb://mongo:mongo@localhost:10002/local?authSource=admin
