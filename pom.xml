@@ -11,8 +11,8 @@
 	<groupId>com.unicauca</groupId>
 	<artifactId>smart_consumption</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>smart_consumption</name>
-	<description>Alicacion de buqueda de ofertas locales para promover el conusmo inteligente</description>
+	<name>smart_consumption_offert_ms</name>
+	<description>Microservicio para crear ofertas y notificar a los usuarios</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -72,11 +72,6 @@
 			<version>42.7.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-			<version>3.3.3</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>1.5.5.Final</version>
@@ -93,6 +88,12 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.6.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
