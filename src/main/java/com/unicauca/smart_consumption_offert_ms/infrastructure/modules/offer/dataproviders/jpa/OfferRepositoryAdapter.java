@@ -1,6 +1,7 @@
 package com.unicauca.smart_consumption_offert_ms.infrastructure.modules.offer.dataproviders.jpa;
 
 import com.unicauca.smart_consumption_offert_ms.domain.offer.Offer;
+import com.unicauca.smart_consumption_offert_ms.domain.offer.ports.IOfferEventPublisher;
 import com.unicauca.smart_consumption_offert_ms.domain.offer.ports.out.IOfferRepository;
 import com.unicauca.smart_consumption_offert_ms.domain.offer.Period;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.pattern.mapper.OfferJPAMapper;
@@ -21,26 +22,31 @@ public class OfferRepositoryAdapter implements IOfferRepository {
     private final OfferJPARepository offerJPARepository;
     private final OfferJPAMapper offerJPAMapper;
     private final ProductJpaEntityMapper productJpaEntityMapper;
+    private final IOfferEventPublisher offerEventPublisher;
 
     @Override
     public Offer createOffer(Offer offer) {
         OfferJPAEntity entity = offerJPAMapper.toTarget(offer);
-        return offerJPAMapper.toDomain(offerJPARepository.save(entity));
+        final var offerCreated = offerJPAMapper.toDomain(offerJPARepository.save(entity));
+        offerEventPublisher.publishOffertCreated(offerCreated);
+        return offerCreated;
     }
 
+    
     @Override
     public Offer updateOffer(String id, Offer offer) {
-        return offerJPARepository.findById(id)
-                .map(offerEntity -> {
-                    Offer domainOffer = offerJPAMapper.toDomain(offerEntity);
-                    domainOffer.update(offer.getDescription(), offer.getDiscountPercentage());
-                    domainOffer.setPeriod(offer.getPeriod());
-                    domainOffer.setProduct(offer.getProduct());
-                    OfferJPAEntity updatedEntity = offerJPAMapper.toTarget(domainOffer);
-                    offerJPARepository.save(updatedEntity);
-                    return domainOffer;
-                })
+        OfferJPAEntity offerJPAEntity = offerJPARepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Offer not found with id " + id));
+        Offer domainOffer = offerJPAMapper.toDomain(offerJPAEntity);
+        domainOffer.setDescription(offer.getDescription());
+        domainOffer.setDiscountPercentage(offer.getDiscountPercentage());
+        domainOffer.setPeriod(offer.getPeriod());
+        domainOffer.setProduct(offer.getProduct());
+        OfferJPAEntity updatedEntity = offerJPAMapper.toTarget(domainOffer);
+        offerJPARepository.save(updatedEntity);
+        final var offerUpdate = offerJPAMapper.toDomain(updatedEntity);
+        offerEventPublisher.publishOffertUpdated(offerUpdate);
+        return offerUpdate;
     }
 
 

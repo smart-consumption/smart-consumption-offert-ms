@@ -19,7 +19,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-
-  data:
-    mongodb:
-      uri: mongodb://mongo:mongo@localhost:10002/local?authSource=admin
