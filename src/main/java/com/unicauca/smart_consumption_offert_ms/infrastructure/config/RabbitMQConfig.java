@@ -49,6 +49,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue notificationQueue() {
+        return new Queue("notifications.queue", true);
+    }
+
+    @Bean
     public TopicExchange offerExchange() {
         return new TopicExchange(OFFER_EXCHANGE);
     }
