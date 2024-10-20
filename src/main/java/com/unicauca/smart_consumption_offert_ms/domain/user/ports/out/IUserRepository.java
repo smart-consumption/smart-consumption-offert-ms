@@ -32,4 +32,6 @@ public interface IUserRepository {
      */
     List<User> findAllUsers();
 
+    User updateUser(String id, User user);
+
 }

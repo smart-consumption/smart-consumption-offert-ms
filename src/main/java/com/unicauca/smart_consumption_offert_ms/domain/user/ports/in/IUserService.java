@@ -33,4 +33,6 @@ public interface IUserService {
     ResponseDto<List<User>> findAllUsers();
     ResponseDto<Product> addToWatchList(String userId, String productId);
     ResponseDto<List<Product>> getWatchList(String userId);
+
+    ResponseDto<User> updateUser(String id, User user);
 }

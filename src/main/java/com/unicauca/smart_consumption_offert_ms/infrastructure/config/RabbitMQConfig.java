@@ -20,6 +20,9 @@ public class RabbitMQConfig {
     public static final String ROUTING_KEY_OFFER_CREATED = "offer.created";
     public static final String ROUTING_KEY_OFFER_UPDATED = "offer.updated";
     public static final String  OFFER_EXCHANGE = "offer.exchange";
+    public static final String USER_CREATED_QUEUE = "user.created.queue";
+    public static final String USER_UPDATED_QUEUE = "user.updated.queue";
+
 
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
@@ -28,6 +31,15 @@ public class RabbitMQConfig {
         return rabbitTemplate;
     }
 
+    @Bean
+    Queue userCreatedQueue() {
+        return new Queue(USER_CREATED_QUEUE, true);
+    }
+
+    @Bean
+    Queue userUpdatedQueue() {
+        return new Queue(USER_UPDATED_QUEUE, true);
+    }
 
     @Bean
     public Queue offerCreatedQueue() {
@@ -69,6 +81,5 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(offerUpdatedQueue()).to(offerExchange()).
                 with(ROUTING_KEY_OFFER_UPDATED);
     }
-
 
 }

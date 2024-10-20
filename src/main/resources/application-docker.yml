@@ -1,0 +1,35 @@
+server:
+  port: 0
+  servlet:
+    context-path: /smart-consumption/api/v1
+
+spring:
+  application:
+    name: smart-consumption-offer-ms
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://smart-consumption-register-ms:8761/eureka/
+
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}

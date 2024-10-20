@@ -7,9 +7,11 @@ import com.unicauca.smart_consumption_offert_ms.domain.product.ports.in.IProduct
 import com.unicauca.smart_consumption_offert_ms.domain.user.User;
 import com.unicauca.smart_consumption_offert_ms.domain.user.ports.in.IUserService;
 import com.unicauca.smart_consumption_offert_ms.domain.user.ports.out.IUserRepository;
+import com.unicauca.smart_consumption_offert_ms.infrastructure.config.RabbitMQConfig;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.exception.BusinessRuleException;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.messages.MessageLoader;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements IUserService {
     private final IUserRepository userRepository;
     private final IProductCommandService productCommandService;
 
+    @RabbitListener(queues = {RabbitMQConfig.USER_CREATED_QUEUE})
     @Override
     public ResponseDto<User> createUser(User user) {
         User createdUser = userRepository.createUser(user);
@@ -29,6 +32,13 @@ public class UserServiceImpl implements IUserService {
                 MessageLoader.getInstance().getMessage(MessagesConstant.IM002), createdUser);
     }
 
+    @RabbitListener(queues = {RabbitMQConfig.USER_UPDATED_QUEUE})
+    @Override
+    public ResponseDto<User> updateUser(String id, User user) {
+        User updatedUser = userRepository.updateUser(id, user);
+        return new ResponseDto<>(HttpStatus.OK.value(),
+                MessageLoader.getInstance().getMessage(MessagesConstant.IM003), updatedUser);
+    }
 
     @Override
     public ResponseDto<User> findUserById(final String id) {

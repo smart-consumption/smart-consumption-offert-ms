@@ -42,11 +42,6 @@ public class UserJPAEntity {
   )
   private List<ProductJpaEntity> watchList;
 
-  @PrePersist
-  public void prePersist() {
-    if (Objects.isNull(this.id)  || this.id.isEmpty()) {
-      this.id = UUID.randomUUID().toString();
-    }
-  }
+
 
 }

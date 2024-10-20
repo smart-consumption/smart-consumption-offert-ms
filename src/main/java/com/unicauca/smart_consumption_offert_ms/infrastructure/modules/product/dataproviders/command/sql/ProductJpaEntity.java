@@ -46,10 +46,4 @@ public class ProductJpaEntity {
 
     private double price;
 
-    @PrePersist
-    public void prePersist() {
-        if (Objects.isNull(this.id)  || this.id.isEmpty()) {
-            this.id = UUID.randomUUID().toString();
-        }
-    }
 }

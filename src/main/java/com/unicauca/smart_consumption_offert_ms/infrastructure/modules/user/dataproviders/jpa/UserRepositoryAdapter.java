@@ -30,8 +30,6 @@ public class UserRepositoryAdapter implements IUserRepository {
 
 
 
-
-
     @Override
     public Optional<User> findUserById(String id) {
         Optional<UserJPAEntity> userJPA=userJPARepository.findById(id);
@@ -44,6 +42,19 @@ public class UserRepositoryAdapter implements IUserRepository {
     public List<User> findAllUsers() {
         return userJPARepository.findAll().stream()
                 .map(userJPAMapper::toDomain).toList();
+    }
+
+    @Override
+    public User updateUser(String id, User user) {
+        return userJPARepository.findById(id)
+                .map(userEntity -> {
+                    User domainUser = userJPAMapper.toDomain(userEntity);
+                    domainUser.setWatchList(user.getWatchList());
+                    UserJPAEntity updatedEntity = userJPAMapper.toTarget(domainUser);
+                    userJPARepository.save(updatedEntity);
+                    return userJPAMapper.toDomain(updatedEntity);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id " + id));
     }
 
 
