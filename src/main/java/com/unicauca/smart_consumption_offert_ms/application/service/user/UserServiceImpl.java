@@ -24,20 +24,19 @@ public class UserServiceImpl implements IUserService {
     private final IUserRepository userRepository;
     private final IProductCommandService productCommandService;
 
-    @RabbitListener(queues = {RabbitMQConfig.USER_CREATED_QUEUE})
+
     @Override
-    public ResponseDto<User> createUser(User user) {
+    @RabbitListener(queues = RabbitMQConfig.USER_CREATED_QUEUE)
+    public void createUser(User user) {
         User createdUser = userRepository.createUser(user);
-        return new ResponseDto<>(HttpStatus.CREATED.value(),
-                MessageLoader.getInstance().getMessage(MessagesConstant.IM002), createdUser);
+        System.out.println("user from ms_user" + createdUser.toString());
     }
 
-    @RabbitListener(queues = {RabbitMQConfig.USER_UPDATED_QUEUE})
     @Override
-    public ResponseDto<User> updateUser(String id, User user) {
+    @RabbitListener(queues = RabbitMQConfig.USER_UPDATED_QUEUE)
+    public void updateUser(String id, User user) {
         User updatedUser = userRepository.updateUser(id, user);
-        return new ResponseDto<>(HttpStatus.OK.value(),
-                MessageLoader.getInstance().getMessage(MessagesConstant.IM003), updatedUser);
+        System.out.println("user from ms_user" + updatedUser.toString());
     }
 
     @Override
@@ -62,7 +61,6 @@ public class UserServiceImpl implements IUserService {
         Product product=productCommandService.getProduct(productId).getData();
         if(user.addProductToWatchList(product))
         {
-          //  userRepository.updateUser(user.getId(), user);
             return new ResponseDto<>(HttpStatus.ACCEPTED.value(),
             MessageLoader.getInstance().getMessage(MessagesConstant.IM002), product);
         }

@@ -14,7 +14,7 @@ public interface IUserService {
      * @param user The {@link User} to be created.
      * @return A {@link ResponseDto} containing the created {@link User} object and an HTTP status code.
      */
-    ResponseDto<User> createUser(User user);
+   void createUser(User user);
 
 
     /**
@@ -34,5 +34,5 @@ public interface IUserService {
     ResponseDto<Product> addToWatchList(String userId, String productId);
     ResponseDto<List<Product>> getWatchList(String userId);
 
-    ResponseDto<User> updateUser(String id, User user);
+    void updateUser(String id, User user);
 }

@@ -23,10 +23,10 @@ public class ProductServiceImpl implements IProductCommandService{
     @Override
     @RabbitListener(queues = {RabbitMQConfig.PRODUCT_CREATED_QUEUE,
             RabbitMQConfig.PRODUCT_UPDATED_QUEUE})
-    public ResponseDto<Product> createProduct(Product product) {
+
+    public void createProduct(Product product) {
         Product productNew = productCommandRepository.createProduct(product);
-        return new ResponseDto<>(HttpStatus.CREATED.value(),
-            MessageLoader.getInstance().getMessage(MessagesConstant.IM002), productNew);
+        System.out.println("product from ms_product" + productNew.toString());
     }
 
     @Override

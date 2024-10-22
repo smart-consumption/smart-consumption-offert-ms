@@ -10,24 +10,33 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 
+
 @Configuration
 public class RabbitMQConfig {
 
     public static final String OFFER_CREATED_QUEUE = "offer.created.queue";
     public static final String OFFER_UPDATED_QUEUE = "offer.updated.queue";
-    public static final String PRODUCT_CREATED_QUEUE = "product.created.queue";
-    public static final String PRODUCT_UPDATED_QUEUE = "product.updated.queue";
+    public static final String  OFFER_EXCHANGE = "offer.exchange";
     public static final String ROUTING_KEY_OFFER_CREATED = "offer.created";
     public static final String ROUTING_KEY_OFFER_UPDATED = "offer.updated";
-    public static final String  OFFER_EXCHANGE = "offer.exchange";
+
+    public static final String PRODUCT_CREATED_QUEUE = "product.created.queue";
+    public static final String PRODUCT_UPDATED_QUEUE = "product.updated.queue";
+    public static final String ROUTING_KEY_PRODUCT_CREATED = "product.created";
+    public static final String ROUTING_KEY_PRODUCT_UPDATED = "product.updated";
+    public static final String PRODUCT_EXCHANGE = "product.exchange";
+
+    public static final String USER_EXCHANGE = "user.exchange";
     public static final String USER_CREATED_QUEUE = "user.created.queue";
     public static final String USER_UPDATED_QUEUE = "user.updated.queue";
+    public static final String ROUTING_KEY_USER_CREATED = "user.created";
+    public static final String ROUTING_KEY_USER_UPDATED = "user.updated";
 
 
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+        rabbitTemplate.setMessageConverter(jsonMessageConverter());
         return rabbitTemplate;
     }
 
@@ -71,6 +80,16 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public TopicExchange productExchange() {
+        return new TopicExchange(PRODUCT_EXCHANGE);
+    }
+
+    @Bean
+    TopicExchange userExchange() {
+        return new TopicExchange(USER_EXCHANGE);
+    }
+
+    @Bean
     public Binding bindingCreated() {
         return BindingBuilder.bind(offerCreatedQueue()).to(offerExchange())
                 .with(ROUTING_KEY_OFFER_CREATED);
@@ -80,6 +99,35 @@ public class RabbitMQConfig {
     public Binding bindingUpdated() {
         return BindingBuilder.bind(offerUpdatedQueue()).to(offerExchange()).
                 with(ROUTING_KEY_OFFER_UPDATED);
+    }
+
+    @Bean
+    public Binding bindingProductCreated() {
+        return BindingBuilder.bind(productCreatedQueue()).to(productExchange())
+                .with(ROUTING_KEY_PRODUCT_CREATED);
+    }
+
+    @Bean
+    public Binding bindingProductUpdated() {
+        return BindingBuilder.bind(productUpdatedQueue()).to(productExchange())
+                .with(ROUTING_KEY_PRODUCT_UPDATED);
+    }
+
+    @Bean
+    Binding bindingUserCreated() {
+        return BindingBuilder.bind(userCreatedQueue()).
+                to(userExchange()).with(ROUTING_KEY_USER_CREATED);
+    }
+
+    @Bean
+    Binding bindingUserUpdated() {
+        return BindingBuilder.bind(userUpdatedQueue()).
+                to(userExchange()).with(ROUTING_KEY_USER_UPDATED);
+    }
+
+    @Bean
+    public Jackson2JsonMessageConverter jsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 }

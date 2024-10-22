@@ -16,11 +16,9 @@ public interface IProductCommandService {
    * @param product The {@link Product} to be created.
    * @return A {@link ResponseDto} containing the created product and an HTTP status code.
    */
-  ResponseDto<Product> createProduct(Product product);
-
+  void createProduct(Product product);
   ResponseDto<Product> getProduct(String productId);
 
   ResponseDto<List<Product>> getAllProducts();
-
 
 }

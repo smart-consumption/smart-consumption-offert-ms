@@ -1,14 +1,14 @@
 server:
   port: 9002
   servlet:
-    context-path: /smart-consumption/api/v1
+    context-path: /smart-consumption/api-offer/v1
 
 spring:
   application:
-    name: smart_consumption
+    name: smart-consumption-offer-ms
 
   datasource:
-    url: jdbc:postgresql://localhost:10001/postgres
+    url: jdbc:postgresql://localhost:10001/ms_offer
     username: postgres
     password: postgres
 
@@ -19,3 +19,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
