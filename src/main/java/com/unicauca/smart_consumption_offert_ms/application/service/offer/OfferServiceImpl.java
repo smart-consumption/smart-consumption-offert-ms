@@ -12,12 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4200/new"})
 public class OfferServiceImpl implements IOfferService {
 
     private final IOfferRepository offerRepository;
@@ -25,6 +27,7 @@ public class OfferServiceImpl implements IOfferService {
 
 
     private final NotifyUsers notify;
+
 
     @Override
     public ResponseDto<Offer> createOffer(Offer offer, String productId) {

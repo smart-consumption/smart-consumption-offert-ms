@@ -7,6 +7,7 @@ spring:
   application:
     name: smart-consumption-offer-ms
 
+
   datasource:
     url: jdbc:postgresql://localhost:10001/ms_offer
     username: postgres

@@ -11,11 +11,13 @@ import com.unicauca.smart_consumption_offert_ms.domain.product.ports.out.IProduc
 import com.unicauca.smart_consumption_offert_ms.infrastructure.messages.MessageLoader;
 import lombok.RequiredArgsConstructor;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.config.RabbitMQConfig;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4200/new"})
 public class ProductServiceImpl implements IProductCommandService{
 
     private final IProductCommandRepository productCommandRepository;
