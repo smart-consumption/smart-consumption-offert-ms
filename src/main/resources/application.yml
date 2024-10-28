@@ -1,7 +1,7 @@
 server:
   port: 9002
   servlet:
-    context-path: /smart-consumption/api-offer/v1
+    context-path: /smart-consumption/api/v1
 
 spring:
   application:
