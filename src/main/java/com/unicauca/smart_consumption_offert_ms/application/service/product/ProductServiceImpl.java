@@ -17,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4200/new"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class ProductServiceImpl implements IProductCommandService{
 
     private final IProductCommandRepository productCommandRepository;

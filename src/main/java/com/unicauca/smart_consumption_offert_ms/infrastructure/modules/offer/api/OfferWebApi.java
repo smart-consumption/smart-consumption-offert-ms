@@ -28,13 +28,12 @@ import java.util.List;
 @RequestMapping(value = "/offer")
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Tag(name = "Offer APIs", description = "Ofer web APIs")
-@CrossOrigin(origins = {"http://localhost:4200","http://localhost:4200/new"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class OfferWebApi {
 
     private final IOfferService offerService;
     private final OfferMapper offerMapper;
 
-    @CrossOrigin(origins = {"http://localhost:4200","http://localhost:4200/new"})
     @PostMapping("/{productId}")
     public ResponseEntity<ResponseDto<OfferDto>> createOffer(
         @RequestBody OfferDto offerDto,
