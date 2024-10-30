@@ -19,7 +19,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-@CrossOrigin(origins = {"http://localhost:4200"})
 public class OfferServiceImpl implements IOfferService {
 
     private final IOfferRepository offerRepository;
