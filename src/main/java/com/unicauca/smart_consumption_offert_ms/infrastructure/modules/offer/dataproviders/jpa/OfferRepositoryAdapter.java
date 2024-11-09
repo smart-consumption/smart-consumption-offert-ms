@@ -23,6 +23,7 @@ public class OfferRepositoryAdapter implements IOfferRepository {
     private final OfferJPAMapper offerJPAMapper;
     private final ProductJpaEntityMapper productJpaEntityMapper;
     private final IOfferEventPublisher offerEventPublisher;
+    private final ProductJpaEntityMapper productMapper;
 
     @Override
     public Offer createOffer(Offer offer) {
@@ -41,7 +42,7 @@ public class OfferRepositoryAdapter implements IOfferRepository {
         domainOffer.setDescription(offer.getDescription());
         domainOffer.setDiscountPercentage(offer.getDiscountPercentage());
         domainOffer.setPeriod(offer.getPeriod());
-        domainOffer.setProduct(offer.getProduct());
+        domainOffer.setProduct(productMapper.toDomain(offerJPAEntity.getProduct()));
         OfferJPAEntity updatedEntity = offerJPAMapper.toTarget(domainOffer);
         offerJPARepository.save(updatedEntity);
         final var offerUpdate = offerJPAMapper.toDomain(updatedEntity);
@@ -52,7 +53,7 @@ public class OfferRepositoryAdapter implements IOfferRepository {
 
     @Override
     public void deleteOffer(String id) {
-        if (offerJPARepository.findById(id).isEmpty()) {
+        if (offerJPARepository.findById(id).isPresent()) {
             offerJPARepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Offer not found with id " + id);

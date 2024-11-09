@@ -47,7 +47,7 @@ public class OfferServiceImpl implements IOfferService {
 
     @Override
     public ResponseDto<Void> deleteOffer(String id) {
-        if (offerRepository.findOfferById(id).isEmpty()) {
+        if (offerRepository.findOfferById(id).isPresent()) {
             offerRepository.deleteOffer(id);
             return new ResponseDto<>(HttpStatus.NO_CONTENT.value(),
                     MessageLoader.getInstance().getMessage(MessagesConstant.IM004));
