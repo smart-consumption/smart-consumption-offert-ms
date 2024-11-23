@@ -9,7 +9,7 @@ spring:
 
 
   datasource:
-    url: jdbc:postgresql://localhost:10001/ms_offer
+    url: jdbc:postgresql://localhost:10003/postgres
     username: postgres
     password: postgres
 
