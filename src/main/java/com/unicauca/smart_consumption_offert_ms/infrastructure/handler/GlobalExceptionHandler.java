@@ -7,8 +7,6 @@ import com.unicauca.smart_consumption_offert_ms.domain.constant.MessagesConstant
 import com.unicauca.smart_consumption_offert_ms.domain.common.ResponseDto;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.exception.BusinessRuleException;
 import com.unicauca.smart_consumption_offert_ms.infrastructure.messages.MessageLoader;
-
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Objects;
 import org.springframework.http.HttpStatus;
@@ -126,16 +124,5 @@ public class GlobalExceptionHandler {
         MessageLoader.getInstance().getMessage(MessagesConstant.EM011, ex.getPropertyName(),
             Objects.requireNonNull(ex.getRequiredType()).getSimpleName()));
   }
-
-
-
-  @ExceptionHandler(AccessDeniedException.class)
-  @ResponseBody
-  @ResponseStatus(HttpStatus.FORBIDDEN)
-  public ResponseDto<Void> handleAccessDeniedException(AccessDeniedException ex) {
-    return new ResponseDto<>(HttpStatus.FORBIDDEN.value(), MessageLoader.getInstance()
-            .getMessage(MessagesConstant.EM012));
-  }
-
 
 }

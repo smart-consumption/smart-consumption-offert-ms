@@ -33,20 +33,3 @@ eureka:
 
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-keycloak:
-  realm: your-realm
-  auth-server-url: http://keycloak:8081/auth
-  resource: your-client
-  public-client: true
-  ssl-required: external
-  credentials:
-    secret: your-client-secret
-
-

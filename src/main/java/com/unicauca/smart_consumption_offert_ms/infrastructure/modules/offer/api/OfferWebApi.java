@@ -12,7 +12,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +34,6 @@ public class OfferWebApi {
     private final IOfferService offerService;
     private final OfferMapper offerMapper;
 
-    @Secured("ROLE_ADMIN")
     @PostMapping("/{productId}")
     public ResponseEntity<ResponseDto<OfferDto>> createOffer(
         @RequestBody OfferDto offerDto,
@@ -46,8 +44,8 @@ public class OfferWebApi {
         return new ResponseDto<>(offerResponse.getStatus(),
                 offerResponse.getMessage(), createOfferDto).of();
     }
+    
 
-    @Secured("ROLE_ADMIN")
     @PutMapping("/{entityId}")
     public ResponseEntity<ResponseDto<OfferDto>> updateOffer(@PathVariable String entityId, @RequestBody OfferDto offerDto) {
         Offer offer = offerMapper.toDomain(offerDto);
@@ -57,7 +55,6 @@ public class OfferWebApi {
                 offerResponse.getMessage(), updatedOfferDto).of();
     }
 
-    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{entityId}")
     public ResponseEntity<ResponseDto<Void>> deleteOffer(@PathVariable String entityId) {
         ResponseDto<Void> offerResponse = offerService.deleteOffer(entityId);
