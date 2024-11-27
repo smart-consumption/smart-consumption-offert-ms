@@ -56,4 +56,9 @@ public class OfferServiceTest {
                 .createOffer(any(Offer.class));
         verify(notify, times(1)).notifyUsers(any(Product.class));
     }
+
+
+
+
+
 }
