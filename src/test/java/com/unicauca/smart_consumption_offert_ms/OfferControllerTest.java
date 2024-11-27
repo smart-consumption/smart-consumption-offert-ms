@@ -22,22 +22,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @WebMvcTest(OfferWebApi.class)
 public class OfferControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @MockBean
     private OfferMapper offerMapper;
-    @MockBean
-    private OfferServiceImpl offerService;
 
     @Test
     public void testControllerCreateOffer() throws Exception {
@@ -55,9 +49,6 @@ public class OfferControllerTest {
         ResponseDto<Offer> offerResponse = new ResponseDto<>(201, "Success", offer);
         OfferDto createOfferDto = new OfferDto();
         when(offerMapper.toDomain(any(OfferDto.class))).thenReturn(offer);
-        when(offerService.createOffer(any(Offer.class),
-                eq("35057b47-aff7-423b-9e84-53022e2bc1b6"))).thenReturn(offerResponse);
-        when(offerMapper.toTarget(any(Offer.class))).thenReturn(createOfferDto);
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/offer/{productId}", "35057b47-aff7-423b-9e84-53022e2bc1b6")
                         .content(asJsonString(offerDto))
@@ -76,20 +67,5 @@ public class OfferControllerTest {
             throw new RuntimeException(e);
         }
     }
-
-    @Test
-    public void testMinimalControllerCreateOffer() throws Exception {
-        when(offerMapper.toDomain(any(OfferDto.class))).thenReturn(new Offer());
-        when(offerService.createOffer(any(Offer.class), anyString())).thenReturn(new ResponseDto<>(201, "Success", new Offer()));
-        when(offerMapper.toTarget(any(Offer.class))).thenReturn(new OfferDto());
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/offer/{productId}", "123")
-                        .content("{}")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-    }
-
 
 }

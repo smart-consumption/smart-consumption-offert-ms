@@ -51,8 +51,10 @@ public class OfferServiceTest {
         when(offerRepository.createOffer(any(Offer.class))).thenReturn(offer);
         Offer result = offerService.createOffer(offer, "35057b47-aff7-423b-9e84-53022e2bc1b6").getData();
         assertNotNull(result, "Expected created offer to be not null");
-        assertEquals(offer, result); verify(productCommandService, times(1))
-                .getProduct(anyString()); verify(offerRepository, times(1))
+        assertEquals(offer, result);
+        verify(productCommandService, times(1))
+                .getProduct(anyString());
+        verify(offerRepository, times(1))
                 .createOffer(any(Offer.class));
         verify(notify, times(1)).notifyUsers(any(Product.class));
     }
