@@ -33,3 +33,17 @@ eureka:
 
   instance:
     instance-id: ${spring.application.name}:${random.uuid}
+
+logging:
+  level:
+    'org.springframework.boot.actuate.health': DEBUG
+    'org.springframework.boot.actuate.metrics': DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info
